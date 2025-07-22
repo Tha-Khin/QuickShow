@@ -89,7 +89,11 @@ export const addShow = async (req, res) => {
 // API to get all shows from the database
 export const getShows = async (req, res) => {
     try {
-        const shows = await Show.find({showDateTime: {$gte: new Date()}}).populate('movie').sort({ showDateTime: 1 });
+        // Actual code
+        // const shows = await Show.find({showDateTime: {$gte: new Date()}}).populate('movie').sort({ showDateTime: 1 });
+
+        // To avoid empty shows in future
+        const shows = await Show.find({}).populate('movie').sort({ showDateTime: 1 });
 
         // filter unique shows
         const uniqueShows = new Set(shows.map(show => show.movie))
@@ -107,7 +111,11 @@ export const getShow = async (req, res) => {
     try {
         const {movieId} = req.params;
         // get all upcoming shows for the movie
-        const shows = await Show.find({movie: movieId, showDateTime: { $gte: new Date() }})
+        // Actual code
+        // const shows = await Show.find({movie: movieId, showDateTime: { $gte: new Date() }})
+
+        // To avoid empty shows in future
+        const shows = await Show.find({movie: movieId})
         const movie = await Movie.findById(movieId);
         const dateTime = {};
 
